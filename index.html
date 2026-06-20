@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚾ 야구장 직관 승률 계산기</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <h1>⚾ 야구장 직관 승률 계산기</h1>
+      <p class="subtitle">나의 야구장 직관 역사를 기록하고 누적 승률을 실시간으로 확인해보세요!</p>
+    </header>
+
+    <div class="main-content">
+      <!-- Sidebar / Dashboard -->
+      <section class="dashboard-section">
+        <div class="card stat-card">
+          <h2>누적 승률</h2>
+          <div class="win-rate-circle">
+            <span id="win-rate-value">0.0%</span>
+            <span class="label">승률 (취소 제외)</span>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-item total">
+              <span class="stat-count" id="stat-total">0</span>
+              <span class="stat-label">총 직관</span>
+            </div>
+            <div class="stat-item win">
+              <span class="stat-count" id="stat-win">0</span>
+              <span class="stat-label">★ 승</span>
+            </div>
+            <div class="stat-item draw">
+              <span class="stat-count" id="stat-draw">0</span>
+              <span class="stat-label">─ 무</span>
+            </div>
+            <div class="stat-item lose">
+              <span class="stat-count" id="stat-lose">0</span>
+              <span class="stat-label">▼ 패</span>
+            </div>
+            <div class="stat-item cancel">
+              <span class="stat-count" id="stat-cancel">0</span>
+              <span class="stat-label">✕ 취소</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card info-card">
+          <h3>💡 사용 방법</h3>
+          <ul>
+            <li>달력에서 경기를 관람한 날짜를 클릭하세요.</li>
+            <li>상대 팀과 경기 결과(승/패/무/취소)를 입력하고 저장하세요.</li>
+            <li>직관 결과에 따라 달력에 색상 뱃지가 추가되고 누적 승률이 즉시 계산됩니다.</li>
+            <li>우천 취소 등의 '취소' 경기는 승률 계산 분모에서 자동으로 제외됩니다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Calendar Container -->
+      <section class="calendar-section">
+        <div class="card calendar-card">
+          <!-- Calendar Navigation -->
+          <div class="calendar-nav">
+            <button id="prev-month-btn" class="nav-btn">◀</button>
+            <div class="current-date-display">
+              <select id="year-select"></select>
+              <span>년</span>
+              <select id="month-select"></select>
+              <span>월</span>
+            </div>
+            <button id="next-month-btn" class="nav-btn">▶</button>
+            <button id="today-btn" class="today-btn">오늘</button>
+          </div>
+
+          <!-- Weekdays Header -->
+          <div class="weekdays-grid">
+            <div>월</div>
+            <div>화</div>
+            <div>수</div>
+            <div>목</div>
+            <div>금</div>
+            <div class="sat">토</div>
+            <div class="sun">일</div>
+          </div>
+
+          <!-- Calendar Days Grid -->
+          <div id="calendar-days" class="days-grid"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Input Modal Dialog -->
+  <div id="record-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-date-title">2026년 06월 20일 경기 기록</h3>
+        <button id="close-modal-btn" class="close-btn">&times;</button>
+      </div>
+      <form id="record-form">
+        <div class="form-group">
+          <label for="opponent-select">상대팀</label>
+          <select id="opponent-select" required>
+            <!-- Teams will be populated by JS -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>경기 결과</label>
+          <div class="result-selector-group">
+            <input type="radio" id="res-win" name="match-result" value="승" checked>
+            <label for="res-win" class="result-btn res-win">★ 승</label>
+
+            <input type="radio" id="res-draw" name="match-result" value="무">
+            <label for="res-draw" class="result-btn res-draw">─ 무</label>
+
+            <input type="radio" id="res-lose" name="match-result" value="패">
+            <label for="res-lose" class="result-btn res-lose">▼ 패</label>
+
+            <input type="radio" id="res-cancel" name="match-result" value="취소">
+            <label for="res-cancel" class="result-btn res-cancel">✕ 취소</label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">저장</button>
+          <button type="button" id="delete-record-btn" class="btn btn-danger hidden">삭제</button>
+          <button type="button" id="cancel-modal-btn" class="btn btn-secondary">닫기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
